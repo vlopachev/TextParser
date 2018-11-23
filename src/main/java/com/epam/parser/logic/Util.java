@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Util {
+public final class Util {
     public static String getTextFromFile(String file) {
         StringBuilder text = new StringBuilder();
         String line = null;
@@ -22,5 +22,8 @@ public class Util {
             e.printStackTrace();
         }
         return text.toString();
+    }
+
+    private Util() {
     }
 }

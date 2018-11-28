@@ -1,10 +1,15 @@
 package com.epam.parser.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+public class Word  extends PartText{
 
-public class Word implements PartSentense {
-    private List<Simbol> word = new ArrayList<>();
+    public Word(String word) {
+        super(word);
+    }
+
+    @Override
+    public void parse() {
+
+    }
 
 
 }

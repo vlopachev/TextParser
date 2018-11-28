@@ -1,45 +1,22 @@
 package com.epam.parser.entity;
 
-import com.epam.parser.logic.PropertyManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
-public class Text{
-    private PropertyManager propertyManager;
-    private String text;
-    private List<Paragraph> paragraphs = new ArrayList<>();
+public class Text extends PartText{
+    private static final String REGEX_SPLIT_TEXT_TO_PARAGRAPH = "(?<=(\r\n|\r|\n))([ \t]*$)+";
 
-    public Text() {
-    }
 
-    public Text(String text) {
-        this.text = text;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public List<Paragraph> getParagraphs() {
-        return paragraphs;
-    }
-
-    public void setPropertyManager(PropertyManager propertyManager) {
-        this.propertyManager = propertyManager;
-    }
-
-    public List<Paragraph> parse() {
-        String pattern = propertyManager.getProperty("paragraph.parse.regex");
-        String [] pars = Pattern.compile(pattern, Pattern.MULTILINE).split(text);
+    @Override
+    public void parse() {
+        String [] pars = Pattern.compile(REGEX_SPLIT_TEXT_TO_PARAGRAPH, Pattern.MULTILINE).split(getText());
         for (String par: pars){
-            paragraphs.add(new Paragraph(par));
+            getListPartsText().add(new Paragraph(par));
         }
-        return paragraphs;
+        for (PartText partText: getListPartsText()){
+            partText.parse();
+        }
     }
 }

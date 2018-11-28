@@ -1,28 +1,39 @@
 package com.epam.parser;
 
-import com.epam.parser.entity.Paragraph;
+import com.epam.parser.entity.PartText;
 import com.epam.parser.entity.Text;
 import com.epam.parser.logic.PropertyManager;
 import com.epam.parser.logic.Util;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Runner {
-    private static Logger logger = LogManager.getLogger(Runner.class);
     public static void main(String[] args) {
-        Text text = new Text();
-        text.setText(Util.getTextFromFile("text1.txt"));
         PropertyManager propertyManager = new PropertyManager("parser.properties");
-        text.setPropertyManager(propertyManager);
-        text.parse();
-        List<Paragraph> paragraphs = text.getParagraphs();
-//        for (Paragraph paragraph: paragraphs){
-//            System.out.println("Paragraph1:");
+        //Text text = new Text();
+        String text = Util.getTextFromFile("text1.txt");
+
+
+        Pattern pattern = Pattern.compile("[^.!?]*[.!?]");
+        Matcher matcher = pattern.matcher(text);
+
+        while (matcher.find()){
+            System.out.println(matcher.group().trim());
+        }
+
+
+
+//        text.parse();
+//        List<PartText> paragraphs = text.getListPartsText();
+//        for (PartText paragraph: paragraphs){
+//            System.out.println(paragraph.getId());
 //            System.out.println(paragraph.getText());
+//            for (PartText sentence: paragraph.getListPartsText()){
+//                System.out.println(sentence.getId());
+//                System.out.println(sentence.getText());
+//            }
 //        }
-        logger.info("это логгер");
     }
 }

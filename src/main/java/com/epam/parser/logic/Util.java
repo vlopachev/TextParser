@@ -23,7 +23,6 @@ public final class Util {
         }
         return text.toString();
     }
-
     private Util() {
     }
 }

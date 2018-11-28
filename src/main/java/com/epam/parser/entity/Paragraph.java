@@ -1,34 +1,23 @@
 package com.epam.parser.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class Paragraph implements Parsable{
-    private String text;
-    private List<Sentence> sentences = new ArrayList<>();
+import java.util.regex.Pattern;
 
-    public List<Sentence> getSentences() {
-        return sentences;
-    }
+public class Paragraph extends PartText{
+    private static final String REGEX_SPLIT_TEXT_TO_SENTENCE = "[\\w,:;\\-/)(]*[.?!]";
 
-    public void setSentences(List<Sentence> sentences) {
-        this.sentences = sentences;
-    }
 
     public Paragraph(String text) {
-        this.text = text;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
+        super(text);
     }
 
     @Override
-    public Parsable parse() {
-        return null;
+    protected void parse() {
+        String [] pars = Pattern.compile(REGEX_SPLIT_TEXT_TO_SENTENCE, Pattern.MULTILINE).split(getText());
+        for (String par: pars){
+            getListPartsText().add(new Sentence(par));
+        }
+
     }
+
 }

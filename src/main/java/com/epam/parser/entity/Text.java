@@ -7,16 +7,14 @@ public class Text extends PartText{
 
     public Text(String text) {
         super(text);
+        parse();
     }
 
     @Override
-    public void parse() {
+    protected void parse() {
         String [] pars = Pattern.compile(REGEX_PARAGRAPH, Pattern.MULTILINE).split(getText());
         for (String par: pars){
             getListPartsText().add(new Paragraph(par));
-        }
-        for (PartText partText: getListPartsText()){
-            partText.parse();
         }
     }
 }

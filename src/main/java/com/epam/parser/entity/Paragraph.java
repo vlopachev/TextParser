@@ -8,17 +8,15 @@ public class Paragraph extends PartText{
 
     public Paragraph(String text) {
         super(text);
+        parse();
     }
 
     @Override
-    public void parse() {
+    protected void parse() {
         Pattern pattern = Pattern.compile(REGEX_SENTENCE);
         Matcher matcher = pattern.matcher(getText());
         while (matcher.find()){
             getListPartsText().add(new Sentence(matcher.group().trim()));
-        }
-        for (PartText part: getListPartsText()){
-            part.parse();
         }
     }
 }

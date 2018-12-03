@@ -4,7 +4,6 @@ import com.epam.parser.entity.PartText;
 import com.epam.parser.entity.Text;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TextProcessor {
 
@@ -25,9 +24,8 @@ public class TextProcessor {
         this.text = text;
     }
 
-    public List<String> getAllParagraph() {
-        List<String> paragraphs = text.getListPartsText().stream().map(PartText::getText).collect(Collectors.toList());
-        return paragraphs;
+    public List<PartText> getAllParagraph() {
+        return text.getListPartsText();
     }
 
     public List<PartText> getAllSentences() {

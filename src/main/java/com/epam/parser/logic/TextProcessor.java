@@ -7,6 +7,8 @@ import java.util.*;
 
 public class TextProcessor {
 
+    private static final int MIN_NUMBER_CHARACTERS_IN_WORD = 3;
+
     private Text text;
 
     public TextProcessor() {
@@ -35,7 +37,7 @@ public class TextProcessor {
     public List<PartText> getAllWords() {
         List<PartText> words = new ArrayList<>();
         for (PartText word : getPartText(getAllSentences())) {
-            if (word.getText().length() > 2) {
+            if (word.getText().length() >= MIN_NUMBER_CHARACTERS_IN_WORD) {
                 words.add(word);
             }
         }

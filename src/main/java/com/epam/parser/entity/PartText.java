@@ -3,7 +3,8 @@ package com.epam.parser.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PartText {
+public abstract class PartText implements Comparable{
+
     private static long countId;
     private long id;
     private String text;
@@ -33,6 +34,12 @@ public abstract class PartText {
     public List<PartText> getListPartsText() {
 
         return listPartsText;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        PartText other = (PartText) o;
+        return this.getText().length() - other.getText().length();
     }
 
     protected abstract void parse ();

@@ -3,11 +3,11 @@ package com.epam.parser.logic;
 import com.epam.parser.entity.PartText;
 import com.epam.parser.entity.Text;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TextProcessor {
+
     private Text text;
 
     public TextProcessor() {
@@ -25,26 +25,47 @@ public class TextProcessor {
         this.text = text;
     }
 
-    public List<String> getAllParagraph(){
+    public List<String> getAllParagraph() {
         List<String> paragraphs = text.getListPartsText().stream().map(PartText::getText).collect(Collectors.toList());
         return paragraphs;
     }
 
-    public List<String> getAllSentences(){
-        List<String> sentences = new ArrayList<>();
-        for (PartText partText: text.getListPartsText()){
-            sentences.addAll(partText.getListPartsText().stream().map(PartText::getText).collect(Collectors.toList()));
-        }
-        return sentences;
+    public List<PartText> getAllSentences() {
+        return getPartText(text.getListPartsText());
     }
 
-    public List<String> getAllWords(){
-        List<String> words = new ArrayList<>();
-        for (PartText partText: text.getListPartsText()){
-            for (PartText partText1: partText.getListPartsText()){
-                words.addAll(partText1.getListPartsText().stream().filter(partText2 -> partText2.getText().length() > 1).map(PartText::getText).collect(Collectors.toList()));
+    public List<PartText> getAllWords() {
+        List<PartText> words = new ArrayList<>();
+        for (PartText word : getPartText(getAllSentences())) {
+            if (word.getText().length() > 2) {
+                words.add(word);
             }
         }
         return words;
+    }
+
+    public Map<String, Integer> wordOccurrence() {
+        Map<String, Integer> wordsOccurrence = new TreeMap<>();
+        for (PartText word : getAllWords()) {
+            String key = word.getText();
+            if (wordsOccurrence.containsKey(key)) {
+                wordsOccurrence.put(key, wordsOccurrence.get(key) + 1);
+            } else {
+                wordsOccurrence.put(key, 1);
+            }
+        }
+        return wordsOccurrence;
+    }
+
+    public void parse() {
+        text.parse();
+    }
+
+    private List<PartText> getPartText(List<PartText> partTextList) {
+        List<PartText> partTexts = new ArrayList<>();
+        for (PartText partText : partTextList) {
+            partTexts.addAll(partText.getListPartsText());
+        }
+        return partTexts;
     }
 }

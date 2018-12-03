@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public final class Util {
+
     public static String getTextFromFile(String file) {
         StringBuilder text = new StringBuilder();
         String line = null;
@@ -23,6 +24,7 @@ public final class Util {
         }
         return text.toString();
     }
+
     private Util() {
     }
 }
